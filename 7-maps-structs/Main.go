@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect" // to work with field tags
 )
 
 func main() {
@@ -20,7 +21,7 @@ func main() {
 		"Zduńska Wola": 41686,
 	}
 
-	// --- the order of return of the map is not guaranteed
+	// --- ! the order of return of the map is not guaranteed !
 	// unlike in arrays
 
 	// --- add to map
@@ -52,6 +53,14 @@ func main() {
 		alive  bool
 	}
 
+	// --- naming conventions - scope
+	// struct name:
+	//   uppercase - export globally
+	//   lowercase - package scope
+	// field names:
+	//   lowercase - package scope
+	//   upppercase - global scope
+
 	myself := Human{
 		name:   "Antek",
 		age:    21,
@@ -60,4 +69,54 @@ func main() {
 	}
 
 	fmt.Println(myself)
+
+	// --- anonymous struct
+	// myslef := struct{name string}{name: "antek"}
+
+	// --- struct is copied by value
+
+	// --- embedding
+	// there is no inheritance in golang
+	// you can put one type into another (embed)
+
+	type Animal struct {
+		Name   string
+		Origin string
+	}
+
+	type Bird struct {
+		Animal // embedded field
+		Speed  float32
+		CanFly bool
+	}
+
+	// --- how to define embedded field
+	// method 1
+	ptak := Bird{}
+	ptak.Name = "koliber"
+	ptak.Origin = "america"
+	ptak.CanFly = true
+	ptak.Speed = 100.2
+	// method 2
+
+	//ptak :=  Bird{
+	//Animal : Animal{Name:"chicken", Origin: "poland ;p"}
+	//Speed: 2.2
+	//CanFly: false
+	//}
+	fmt.Println(ptak.Name)
+
+	// --- tag of the field
+
+	type Order struct {
+		Price int `required_min:"100"` // set a tag, later we can access it with reflect
+		Date  int
+	}
+
+	// access tag of a field
+	t := reflect.TypeOf(Order{})
+	field, _ := t.FieldByName("Price")
+
+	fmt.Println(field.Tag)
+
 }
