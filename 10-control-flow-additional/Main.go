@@ -36,4 +36,10 @@ func main() {
 	panic("AAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
 	// --- defered function will fire before panic
+
+	//#############################
+	// --- recover
+	// only useful in defered functions
+	// returns an error
+	// function will stop, but higher in a stack can continue
 }
