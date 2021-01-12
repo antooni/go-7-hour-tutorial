@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+// --- interfaces are implemented implicitly
+// there is no need to express in code the declaration
+// that a certain type uses certain interface
+// it is done automatically if conditions are met
+
 func main() {
 	var w Writer = ConsoleWriter{}
 
